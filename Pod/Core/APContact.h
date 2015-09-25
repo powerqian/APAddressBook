@@ -33,6 +33,8 @@
 @property (nonatomic, readonly) NSString *note;
 @property (nonatomic, readonly) NSArray *linkedRecordIDs;
 
+@property (nonatomic, readonly) ABRecordRef recordRef;
+
 - (id)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
 
 @end

@@ -20,6 +20,7 @@
     self = [super init];
     if (self)
     {
+        _recordRef = recordRef;
         _fieldMask = fieldMask;
         if (fieldMask & APContactFieldFirstName)
         {
