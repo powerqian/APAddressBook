@@ -38,6 +38,14 @@
         {
             _compositeName = [self compositeNameFromRecord:recordRef];
         }
+        if (fieldMask & APContactFieldPhoneticFirstName)
+        {
+            _phoneticFirstName = [self stringProperty:kABPersonFirstNamePhoneticProperty fromRecord:recordRef];
+        }
+        if (fieldMask & APContactFieldPhoneticLastName)
+        {
+            _phoneticLastName = [self stringProperty:kABPersonLastNamePhoneticProperty fromRecord:recordRef];
+        }
         if (fieldMask & APContactFieldCompany)
         {
             _company = [self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef];

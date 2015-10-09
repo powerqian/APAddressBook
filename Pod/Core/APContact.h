@@ -18,6 +18,8 @@
 @property (nonatomic, readonly) NSString *middleName;
 @property (nonatomic, readonly) NSString *lastName;
 @property (nonatomic, readonly) NSString *compositeName;
+@property (nonatomic, readonly) NSString *phoneticFirstName;
+@property (nonatomic, readonly) NSString *phoneticLastName;
 @property (nonatomic, readonly) NSString *company;
 @property (nonatomic, readonly) NSString *jobTitle;
 @property (nonatomic, readonly) NSArray *phones;
