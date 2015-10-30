@@ -23,8 +23,8 @@
                   completion:(void (^)(BOOL granted, NSError * error))completionBlock;
 
 - (void)loadContacts:(void (^)(NSArray *contacts, NSError *error))completionBlock;
-- (void)loadContactsOnQueue:(dispatch_queue_t)queue
-                 completion:(void (^)(NSArray *contacts, NSError *error))completionBlock;
+//- (void)loadContactsOnQueue:(dispatch_queue_t)queue
+//                 completion:(void (^)(NSArray *contacts, NSError *error))completionBlock;
 
 - (void)startObserveChangesWithCallback:(void (^)())callback;
 - (void)stopObserveChanges;

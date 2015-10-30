@@ -109,31 +109,30 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
 
     ABAddressBookRequestAccessWithCompletion(self.addressBook, ^(bool granted, CFErrorRef errorRef)
     {
-        NSArray *array = nil;
-        NSError *error = nil;
-        if (granted)
-        {
-            __block CFArrayRef peopleArrayRef;
-            peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
-            NSUInteger contactCount = (NSUInteger)CFArrayGetCount(peopleArrayRef);
-            NSMutableArray *contacts = [[NSMutableArray alloc] init];
-            for (NSUInteger i = 0; i < contactCount; i++)
+        dispatch_async(queue, ^{
+            NSArray *array = nil;
+            NSError *error = nil;
+            if (granted)
             {
-                ABRecordRef recordRef = CFArrayGetValueAtIndex(peopleArrayRef, i);
-                APContact *contact = [[APContact alloc] initWithRecordRef:recordRef
-                                                                fieldMask:fieldMask];
-                if (!filterBlock || filterBlock(contact))
+                __block CFArrayRef peopleArrayRef;
+                peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
+                NSUInteger contactCount = (NSUInteger)CFArrayGetCount(peopleArrayRef);
+                NSMutableArray *contacts = [[NSMutableArray alloc] init];
+                for (NSUInteger i = 0; i < contactCount; i++)
                 {
-                    [contacts addObject:contact];
+                    ABRecordRef recordRef = CFArrayGetValueAtIndex(peopleArrayRef, i);
+                    APContact *contact = [[APContact alloc] initWithRecordRef:recordRef
+                                                                    fieldMask:fieldMask];
+                    if (!filterBlock || filterBlock(contact))
+                    {
+                        [contacts addObject:contact];
+                    }
                 }
+                [contacts sortUsingDescriptors:descriptors];
+                array = contacts.copy;
+                CFRelease(peopleArrayRef);
             }
-            [contacts sortUsingDescriptors:descriptors];
-            array = contacts.copy;
-            CFRelease(peopleArrayRef);
-        }
-        error = errorRef ? (__bridge NSError *)errorRef : nil;
-        dispatch_async(queue, ^
-        {
+            error = errorRef ? (__bridge NSError *)errorRef : nil;
             completionBlock ? completionBlock(array, error) : nil;
         });
     });
